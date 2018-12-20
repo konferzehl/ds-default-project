@@ -24,6 +24,7 @@ def load_data():
         logger.info("processing file {}".format(file_name))
         file_df = pd.read_csv(os.path.join(input_filepath,file_name))
         file_df.to_csv(os.path.join(output_filepath,file_name))
+    logger.info("processing done")
 
 
 def main():
