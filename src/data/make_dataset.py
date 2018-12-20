@@ -8,22 +8,22 @@ import pandas as pd
 from dotenv import find_dotenv, load_dotenv
 
 
+
 def load_data():
     """ Loads data as defined in config file, runs process_data and writes it to processed 
     """
 
     logger = logging.getLogger(__name__)
-    path_config = config["PATH"]
     files_config = config["FILES"]
 
-    input_filepath = path_config["input_filepath"]
-    output_filepath = path_config["output_filepath"]
+    input_filepath = os.getenv("input_filepath")
+    output_filepath = os.getenv("output_filepath")
 
     for file in [val for val in files_config]:
         file_name = files_config[file]
         logger.info("processing file {}".format(file_name))
         file_df = pd.read_csv(os.path.join(input_filepath, file_name))
-        process_data(file_df)
+        process_data(file_df, file)
         file_df.to_csv(os.path.join(output_filepath, file_name))
     logger.info("processing done")
 
@@ -43,6 +43,7 @@ def main():
     logger = logging.getLogger(__name__)
     logger.info("making final data set from raw data")
     load_data()
+
 
 
 if __name__ == "__main__":
